@@ -9,8 +9,8 @@ const EditFriend = props => {
         return(
                 <div>
                     <h1>Edit Friend</h1>
-                    <AddFriendsForm history = {props.history} stateData ={props} friend={friend} buttonName="Save Updates" updateFriend ={props.updateFriend} inputChangeHandler={props.inputChangeHandler} deleteFriend={props.deleteFriend} segueIdentifier={props.segueIdentifier} />
-                    <Friend friend={friend} />
+                    <AddFriendsForm history={props.history} stateData ={props} friend={friend} buttonName="Save Updates" updateFriend ={props.updateFriend} inputChangeHandler={props.inputChangeHandler} deleteFriend={props.deleteFriend} updateUI={props.updateUI} segueIdentifier={props.segueIdentifier} />
+                    <div className="edit-friend-card-wrapper"><Friend className="edit-friend" friend={friend} /></div>
                 </div>
         )
 

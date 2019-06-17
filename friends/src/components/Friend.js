@@ -1,13 +1,17 @@
 import React from 'react';
+import {Card} from 'react-bootstrap'
+
 
 
 const Friend = props => {
     return (
-        <div>
-            <h2>{props.friend.name}</h2>
-            <p>{props.friend.age}</p>
-            <p>{props.friend.email}</p>
-        </div>
+        <Card className="friend-card" bg="dark" text="white" >
+            <Card.Body>
+            <Card.Title>{props.friend.name}</Card.Title>
+            <Card.Text>{props.friend.age}</Card.Text>
+            <Card.Text>{props.friend.email}</Card.Text>
+            </Card.Body>
+        </Card>
     )
 }
 

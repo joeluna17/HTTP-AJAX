@@ -4,6 +4,7 @@ import axios from 'axios';
 import './App.css';
 import FriendsList from './components/FriendsList';
 import EditFriend from './components/EditFriend';
+import{Alert, Spinner, Carousel, Button} from 'react-bootstrap';
 
 
 class App extends React.Component {
@@ -15,13 +16,13 @@ class App extends React.Component {
         name:"",
         age:"",
         email:"",
+        searchtext:""
     }
   }
 
   componentDidMount(){
 
-      this.getFriendsData()
-
+     window.setTimeout(()=>{this.getFriendsData()}, 2000)
   }
 
   inputChangeHandler = (e) => {
@@ -50,7 +51,8 @@ class App extends React.Component {
           //friendsData: [...this.state.friendsData, newFiend],
           name:"",
           age:"",
-          email:"",
+          email:"", 
+          searchtext: ""
       })
   }
 
@@ -65,7 +67,6 @@ class App extends React.Component {
 
     axios.put(`http://localhost:5000/friends/${id}`, newFiend)
     .then(res => {
-      console.log(res)
         this.setState({
           friendsData: res.data
         })
@@ -91,7 +92,6 @@ class App extends React.Component {
       })
       .then(res => {
         alert("Delete Successful, you didn't need them anyways!")
-        
       })
       .catch(err => {
         alert("There was an Error", err)
@@ -100,9 +100,7 @@ class App extends React.Component {
   }
 
 
-
-
-  getFriendsData(){
+  getFriendsData= () =>{
     axios
     .get('http://localhost:5000/friends')
     .then(res => {
@@ -115,27 +113,61 @@ class App extends React.Component {
   }
 
 
-  postToFriendsData(friend){
+  postToFriendsData= (friend) =>{
       axios
       .post('http://localhost:5000/friends', friend)
       .then(res => { this.setState({friendsData: res.data })})
       .then(res => {alert("Friend Successfully Added!")})
       .catch(err => {alert(`${err}`)})
   }
+  
+
+  updateUI = (name,age,email) => {
+     console.log("in update UI")
+    this.setState({
+      name:name,
+      age:age,
+      email:email
+    })
+}
+
+searchFriend = (e) => {
+  console.log('executing search')
+  e.preventDefault()
+  const friend = this.state.friendsData.find(friend => 
+           `${friend.name.toLowerCase()}` === this.state.searchtext.toLowerCase() 
+    )
+  console.log(friend)
+    this.setState({
+      friendsData: [friend],
+    })
+
+}
 
 
   render(){
-  return (
-    <div className="App">
-     <NavLink to='/'>Home</NavLink>
-      <h1>Using AXIOS example: <br/>Friends List</h1>
-      <Switch>
-        <Route exact path="/" render = {props => <FriendsList {...props} friendsList={this.state.friendsData} stateData={this.state} inputChangeHandler={this.inputChangeHandler} addFriend={this.addNewFriend} buttonName="Save"/>} />
-        <Route path="/friend/:id" render={props => <EditFriend {...props} friendsData={this.state.friendsData} updateFriend={this.updateFriend} inputChangeHandler={this.inputChangeHandler} deleteFriend={this.deleteFriend} segueIdentifier="editForm" />}/>
-      </Switch>
-    </div>
-  );
-}
+    if (this.state.friendsData.length <= 0){
+        return ( <div className ="loading-spinners-wrapper" ><Spinner animation="grow" variant="primary" /> <Spinner animation="grow" variant="success" /></div>
+        )
+    }
+
+    else{
+        return (
+          
+          <div className="App">
+          <NavLink to='/'>Home</NavLink> <input type='text' name = "searchtext" placeholder="Search Friends" value={this.state.searchtext} onChange={this.inputChangeHandler}/><Button variant="success" onClick={(e)=>this.searchFriend(e)}>Go</Button><Button variant="warning" onClick={this.getFriendsData}>Clear</Button>
+            <h1>Using AXIOS example: <br/>Friends List</h1>
+
+
+            <Switch>
+              <Route exact path="/" render = {props => <FriendsList {...props} friendsList={this.state.friendsData} stateData={this.state} inputChangeHandler={this.inputChangeHandler} addFriend={this.addNewFriend} buttonName="Save"/>} />
+              <Route path="/friend/:id" render={props => <EditFriend {...props} updateUI={this.updateUI} friendsData={this.state.friendsData} updateFriend={this.updateFriend} inputChangeHandler={this.inputChangeHandler} deleteFriend={this.deleteFriend} segueIdentifier="editForm" />}/>
+            </Switch>
+          </div>
+        );
+      }
+  }
+
 }
 
 export default App;

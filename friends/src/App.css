@@ -31,3 +31,60 @@
     transform: rotate(360deg);
   }
 }
+
+.friend-list-wrapper{
+  width: 100%;
+  margin: 6% auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  border: 2px solid black;
+  box-shadow: 5px 5px 10px rgba(0,0,0, 0.4);
+  
+}
+
+
+.friend-card{
+  display: flex;
+  flex-flow: row wrap;
+  margin: 5% auto;
+  width: 100%;
+  justify-content: space-around;
+  border: 10px solid blue;
+  border-radius: 8px;
+  box-shadow: 5px 5px 10px rgba(0,0,0, 0.4);
+  
+}
+
+.loading-spinners-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100vh;
+
+}
+
+
+.friends-form form{
+    display: flex;
+    flex-flow: column wrap;
+    margin: 0 auto;
+    width: 500px;
+    border: 2px solid #000000;
+    padding: 3%;
+    border-radius: 8px;
+}
+
+.friends-form form input{
+  margin:4% 0 1% 0;
+}
+
+.friends-form form button{
+  margin:4% 0 1% 0;
+}
+
+
+.edit-friend-card-wrapper{
+  margin: 0 auto;
+  width:500px;
+}
